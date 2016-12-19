@@ -16,7 +16,7 @@ module.exports = function(object, intent, roomObjects, roomTerrain, bulk, bulkUs
     if(!target || target == object) {
         return;
     }
-    if(Math.abs(target.x - object.x) > 1 || Math.abs(target.y - object.y) > 1) {
+    if(Math.abs(target.x - object.x) > C.RANGE_ATTACK || Math.abs(target.y - object.y) > C.RANGE_ATTACK) {
         return;
     }
     if(target.type == 'creep' && target.spawning) {

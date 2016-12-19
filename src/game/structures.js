@@ -52,7 +52,7 @@ function _transfer(target, resourceType, amount) {
     if (data(target.id).energyCapacity && (!amount || utils.calcResources(data(target.id)) + amount > data(target.id).energyCapacity)) {
         return C.ERR_FULL;
     }
-    if (!target.pos.isNearTo(this.pos)) {
+    if (!target.pos.inRangeTo(this.pos, C.RANGE_TRANSFER)) {
         return C.ERR_NOT_IN_RANGE;
     }
 
@@ -89,7 +89,7 @@ function _transferEnergy(target, amount) {
     if(data(target.id).energyCapacity && (!amount || utils.calcResources(data(target.id)) + amount > data(target.id).energyCapacity)) {
         return C.ERR_FULL;
     }
-    if(!target.pos.isNearTo(this.pos)) {
+    if(!target.pos.inRangeTo(this.pos, C.RANGE_TRANSFER)) {
         return C.ERR_NOT_IN_RANGE;
     }
 
@@ -403,7 +403,7 @@ exports.make = function(_runtimeData, _intents, _register, _globals) {
         if (data(target.id).energyCapacity && (!amount || utils.calcResources(data(target.id)) + amount > data(target.id).energyCapacity)) {
             return C.ERR_FULL;
         }
-        if (!target.pos.isNearTo(this.pos)) {
+        if (!target.pos.inRangeTo(this.pos, C.RANGE_TRANSFER)) {
             return C.ERR_NOT_IN_RANGE;
         }
 
@@ -431,7 +431,7 @@ exports.make = function(_runtimeData, _intents, _register, _globals) {
             register.assertTargetObject(lab2);
             return C.ERR_INVALID_TARGET;
         }
-        if(this.pos.getRangeTo(lab1) > 2 || this.pos.getRangeTo(lab2) > 2) {
+        if(this.pos.getRangeTo(lab1) > C.RANGE_RUN_REACTION || this.pos.getRangeTo(lab2) > C.RANGE_RUN_REACTION) {
             return C.ERR_NOT_IN_RANGE;
         }
         if(this.mineralAmount > this.mineralCapacity - C.LAB_REACTION_AMOUNT) {
@@ -460,7 +460,7 @@ exports.make = function(_runtimeData, _intents, _register, _globals) {
             register.assertTargetObject(target);
             return C.ERR_INVALID_TARGET;
         }
-        if(!this.pos.isNearTo(target)) {
+        if(!this.pos.inRangeTo(target, C.RANGE_BOOST_CREEP)) {
             return C.ERR_NOT_IN_RANGE;
         }
         if(data(this.id).energy < C.LAB_BOOST_ENERGY) {
@@ -531,7 +531,7 @@ exports.make = function(_runtimeData, _intents, _register, _globals) {
                 return C.ERR_RCL_NOT_ENOUGH;
             }
         }
-        if ((target instanceof globals.Creep) && !this.pos.isNearTo(target)) {
+        if ((target instanceof globals.Creep) && !this.pos.inRangeTo(target, C.RANGE_TRANSFER)) {
             return C.ERR_NOT_IN_RANGE;
         }
         if (!data(this.id).energy) {
@@ -1092,7 +1092,7 @@ exports.make = function(_runtimeData, _intents, _register, _globals) {
         if(data(target.id).energy == data(target.id).energyCapacity) {
             return C.ERR_FULL;
         }
-        if(!target.pos.isNearTo(this.pos)) {
+        if(!target.pos.inRangeTo(this.pos, C.RANGE_TRANSFER)) {
             return C.ERR_NOT_IN_RANGE;
         }
 
@@ -1144,7 +1144,7 @@ exports.make = function(_runtimeData, _intents, _register, _globals) {
         if(!target.my) {
             return C.ERR_NOT_OWNER;
         }
-        if(!target.pos.isNearTo(this.pos)) {
+        if(!target.pos.inRangeTo(this.pos, C.RANGE_RENEW_CREEP)) {
             return C.ERR_NOT_IN_RANGE;
         }
         if(this.spawning) {
@@ -1176,7 +1176,7 @@ exports.make = function(_runtimeData, _intents, _register, _globals) {
         if(!target.my) {
             return C.ERR_NOT_OWNER;
         }
-        if(!target.pos.isNearTo(this.pos)) {
+        if(!target.pos.inRangeTo(this.pos, C.RANGE_RECYCLE_CREEP)) {
             return C.ERR_NOT_IN_RANGE;
         }
 
